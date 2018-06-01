@@ -23,8 +23,6 @@ def graf_v(l, n):
 		y.append(l[i][1])
 	fig, ax = plt.subplots()
 	plt.bar(x, y)
-	#plt.xticks(rotation=45)
-	#plt.xticks(rotation='vertical')
 	plt.xticks(x, label)
 	plt.show()
 
@@ -49,26 +47,15 @@ def graf_h(l, n):
 	
 with open(args['file'], encoding="utf8") as file:
 	for line in file:
-		match = re.search(r'(\+\d{1,3}\s\d{1,4}\s\d{1,5}(\s|-)\d{1,4})', line, re.ASCII)
+		match = re.search(r'(?P<day>\d{1,2}\/\d{1,2}\/\d{2})\,\s(?P<hour>\d{2}:\d{2})\s-\s+(?:(?P<full_name>(?P<f_name>[A-Z][\w+]*)(\s*[A-Z][\w+]*)*)|.*(?P<number>(\+\d{1,3})\s(\d{1,4}\s\d{1,5}(\s|-)\d{1,4})))(:|.:)(?P<msg>.*)', line, re.UNICODE)
 		if match:
 			total_msgs+=1
-			number = match.group()
-			if number not in _dict_:
-				_dict_[number] = 1
+			id = match.group('full_name') if match.group('full_name') else match.group('number')
+			if id not in _dict_:
+				_dict_[id] = 1
 			else:
-				_dict_[number] += 1
-			continue
-		
-		match = re.search(r'-\s([A-Z][a-z]*(\s*[A-Z][a-z]*)*):', line, re.ASCII)
-		if match:
-			total_msgs+=1
-			name = match.group(1)
-			if name not in _dict_:
-				_dict_[name] = 1 
-			else:
-				_dict_[name] += 1
-			continue
-
+				_dict_[id] += 1
+			
 if args['users'] == None:
 	u = len(_dict_)
 else:
