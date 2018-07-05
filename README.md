@@ -52,7 +52,7 @@ Documentation
     - plot_charac_by_users(\_u\_=None, hide=True): Plot # of characters by each user.
     - plot_user_msgs_by_weekday(id, hide=True, t="u: 1"): Plot # of msgs of a given _id_ by weekday.
     - plot_users_msgs_by_weekday(\_u\_=None, hide=True): Plot # of msgs by each user by weekday.
-    - def plot_chat_msgs_by_weekday(): Plot # of msgs by weekday.
-    - def plot_chat_msgs_by_hour(): Plot # of msgs by hour.
-    - def export(name = "data.json", use_pprint = False): Export all data into a JSON file.
-    - def import_data(name = "data.json"): Import all data from a JSON file.
+    - plot_chat_msgs_by_weekday(): Plot # of msgs by weekday.
+    - plot_chat_msgs_by_hour(): Plot # of msgs by hour.
+    - export(name = "data.json", use_pprint = False): Export all data into a JSON file.
+    - import_data(name = "data.json"): Import all data from a JSON file.
