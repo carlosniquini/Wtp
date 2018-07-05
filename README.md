@@ -10,8 +10,6 @@ This tool uses the chat histoty (that can be acquired by the Whatsapp option 'Ex
 - number of sent messages every hour.
 - etc
 
-.. image:: /docs/imgs/Figure_1.png
-    :alt: [Chat]
-    :align: center
+![chat](/docs/imgs/Figure_1.png)
 
 python main.py -f [path/to/chat.txt] [-u [numer # of user to show in graphs] default=all]
