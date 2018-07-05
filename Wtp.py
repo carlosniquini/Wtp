@@ -48,15 +48,15 @@ class Wtp():
 
 	def plot_msgs_by_users(self, _u_=None, hide=True):
 		_u_ = self.__validate_u__(_u_)
-		self.__graf_h__(self.users_n_msg, _u_, "Mensagens enviadas por usuario", hide)
+		self.__graf_h__(self.users_n_msg, _u_, "Total messages sent per user", hide)
 
 	def plot_words_by_users(self, _u_=None, hide=True):
 		_u_ = self.__validate_u__(_u_)
-		self.__graf_h__(self.users_n_words, _u_, "Palavras enviadas por usuario", hide)
+		self.__graf_h__(self.users_n_words, _u_, "Total words sent per user", hide)
 	
 	def plot_charac_by_users(self, _u_=None, hide=True):
 		_u_ = self.__validate_u__(_u_)
-		self.__graf_h__(self.users_n_charac, _u_, "Caracteres enviados por usuario", hide)
+		self.__graf_h__(self.users_n_charac, _u_, "Total characters sent per user", hide)
 	
 	def plot_user_msgs_by_weekday(self, id, hide=True, t="u: 1"):
 		l = [sorted([(item[0], item[1]) for item in self.__dict__['users'][id]["n_by_day"][i].items()]) for i in range(0, 7)]
@@ -72,7 +72,7 @@ class Wtp():
 		self.__subplots_graf_v__(l, "Chat")
 
 	def plot_chat_msgs_by_hour(self):
-		self.__graf_v__(self.chat_n_by_time, len(self.chat_n_by_time), "Total de mensagens enviadas por hora")
+		self.__graf_v__(self.chat_n_by_time, len(self.chat_n_by_time), "Messages sent per hour")
 	
 	def export(self, name = "data.json", use_pprint = False):
 		with open('data.json', 'w') as fp:
@@ -103,8 +103,9 @@ class Wtp():
 			plt.axhline(statistics.mean(y),color=(0,1,0,0.5), linewidth=1, label="Mean")
 			plt.axhline(statistics.stdev(y),color=(1,0,0,0.5), linewidth=1, label="Standard deviation")
 			ax.set_ylim(-0.5, max(y)+1)
+			ax.set_xlim(0,23)
 		plt.subplots_adjust(top=0.87, bottom=0.08, left=0.10, right=0.95, hspace=0.42,wspace=0.35)
-		plt.suptitle(t + "\n(hh X # of msgs)")
+		plt.suptitle(t + "\n(hour X # of msgs)")
 		plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)		
 		if save:
 			plt.savefig(t+".png", bbox_inches='tight')
@@ -119,13 +120,14 @@ class Wtp():
 			label.append(l[i][0])
 			y.append(l[i][1])
 		_, ax = plt.subplots()
-		ax.set_xlabel('Hora')
+		ax.set_xlabel('Hour')
 		#plt.bar(x, y, color=(0, 0, 1))
 		plt.plot(x, y, color=(0, 0, 1))
 		plt.axhline(statistics.mean(y),color=(0,1,0,0.5), linewidth=1, label="Mean")
 		plt.axhline(statistics.stdev(y),color=(1,0,0,0.5), linewidth=1, label="Standard deviation")
 		plt.legend()
 		ax.set_title(t)
+		ax.set_xlim(0,23)
 		plt.xticks(x, label)
 		plt.show()
 	
