@@ -1,14 +1,14 @@
 Wtp
 =======
 
-Wtp is a tool for analyze Whatsapp chats.
+Wtp is a tool to analyze Whatsapp chats.
 
-This tool uses the chat histoty (that can be acquired by the Whatsapp option 'Export chat') and displays in graphs information such as:
+This tool uses the chat history (that can be acquired by the Whatsapp option 'Export chat') and displays in graphs information such as:
 
-- number of sent messages by each user
-- number of sent characters by each user
-- number of sent messages every hour.
-- etc
+- number of messages sent by each user;
+- number of characters sent by each user;
+- number of messages sent at each hour;
+- etc.
 
 ![chat](/docs/imgs/Figure_1.png)
 
@@ -42,17 +42,17 @@ Documentation
 - Common methods flags:
     - _path_chat_: path to the chat file (.txt);
     - _path_import_: path to the JSON file;
-    - _i_: When True, initialize the object by the given JSON file. Default=False;
-    - _\_u\__: number of users to show in graph. Default:all;
-    - _hide_: When True, display name/number of users in graph. Default=False.
+    - _i_: when True, initialize the object by the given JSON file. Default=False;
+    - _\_u\__: number of users to show in graph. Default=All;
+    - _hide_: when True, display name/number of users in graph. Default=False.
 
 - Methods:
-    - plot_msgs_by_users(\_u\_=None, hide=True): Plot # of msgs by each user.
-    - plot_words_by_users(\_u\_=None, hide=True): Plot # of words by each user.
-    - plot_charac_by_users(\_u\_=None, hide=True): Plot # of characters by each user.
-    - plot_user_msgs_by_weekday(id, hide=True, t="u: 1"): Plot # of msgs of a given _id_ by weekdays.
-    - plot_users_msgs_by_weekday(\_u\_=None, hide=True): Plot # of msgs by each user by weekdays.
-    - plot_chat_msgs_by_weekday(): Plot # of msgs by weekdays.
-    - plot_chat_msgs_by_hour(): Plot # of msgs by hour.
-    - export(name = "data.json", use_pprint = False): Export all data into a JSON file.
-    - import_data(name = "data.json"): Import all data from a given JSON file.
+    - plot_msgs_by_users(\_u\_=None, hide=True): plot # of msgs by each user;
+    - plot_words_by_users(\_u\_=None, hide=True): plot # of words by each user;
+    - plot_charac_by_users(\_u\_=None, hide=True): plot # of characters by each user;
+    - plot_user_msgs_by_weekday(id, hide=True, t="u: 1"): plot # of msgs of a given _id_ by each day of the week;
+    - plot_users_msgs_by_weekday(\_u\_=None, hide=True): plot # of msgs by each user by each day of the week;
+    - plot_chat_msgs_by_weekday(): plot # of msgs by each day of the week;
+    - plot_chat_msgs_by_hour(): plot # of msgs at each hour;
+    - export(name = "data.json", use_pprint = False): export all data into a JSON file;
+    - import_data(name = "data.json"): import all data from a given JSON file.
