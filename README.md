@@ -10,7 +10,7 @@ This tool uses the chat history (that can be acquired by the Whatsapp option 'Ex
 - number of messages sent at each hour;
 - etc.
 
-![chat](/docs/imgs/Figure_1.png)
+![chat](https://github.com/carlosniquini/Wtp/blob/master/docs/imgs/Figure_1.png)
 
 Example
 -------
@@ -21,7 +21,7 @@ from Wtp import *
 wtp = Wtp("path\\to\\WhatsApp Chat with Some Group or Someone.txt")
 wtp.plot_msgs_by_users()
 ```
-![out](/docs/imgs/Figure_3.png)
+![out](https://github.com/carlosniquini/Wtp/blob/master/docs/imgs/Figure_3.png)
 
 Installation
 ------------
@@ -47,12 +47,12 @@ Documentation
     - _hide_: when True, display name/number of users in graph. Default=False.
 
 - Methods:
-    - plot_msgs_by_users(\_u\_=None, hide=True): plot # of msgs by each user;
-    - plot_words_by_users(\_u\_=None, hide=True): plot # of words by each user;
-    - plot_charac_by_users(\_u\_=None, hide=True): plot # of characters by each user;
-    - plot_user_msgs_by_weekday(id, hide=True, t="u: 1"): plot # of msgs of a given _id_ by each day of the week;
-    - plot_users_msgs_by_weekday(\_u\_=None, hide=True): plot # of msgs by each user by each day of the week;
-    - plot_chat_msgs_by_weekday(): plot # of msgs by each day of the week;
-    - plot_chat_msgs_by_hour(): plot # of msgs at each hour;
+    - plot_msgs_users(\_u\_=None, hide=True): plot # of msgs by each user;
+    - plot_words_users(\_u\_=None, hide=True): plot # of words by each user;
+    - plot_charac_users(\_u\_=None, hide=True): plot # of characters by each user;
+    - plot_user_msgs_each_day(id, hide=True, t="u: 1"): plot # of msgs of a given _id_ by each day of the week;
+    - plot_users_msgs_each_day(\_u\_=None, hide=True): plot # of msgs by each user by each day of the week;
+    - plot_chat_msgs_each_day(): plot # of msgs by each day of the week;
+    - plot_chat_msgs_each_hour(): plot # of msgs at each hour;
     - export(name = "data.json", use_pprint = False): export all data into a JSON file;
     - import_data(name = "data.json"): import all data from a given JSON file.

@@ -17,10 +17,10 @@ _dict_=	{'users':{'name|number':{'n_msg':0, 'n_words':0, 'n_charac':0, 'n_by_tim
 
 class Wtp():
 
-	__id_to_weekday__ = {0:"Monday", 1:"Tuesday", 2:"Wednesday", 3:"Thursday", 4:"Friday", 5:"Saturday", 6:"Sunday"}
+	__day_of_week__ = {0:"Monday", 1:"Tuesday", 2:"Wednesday", 3:"Thursday", 4:"Friday", 5:"Saturday", 6:"Sunday"}
 	
 	def __init__(self, path_chat=None, i=False, path_import="data.json"):
-		self.__dict__ = {"users":{},"_chat_info_":{"n_msg":0, "n_words":0, "n_charac":0, "n_by_time":self.__init_dict_by_hour__(), "n_by_day":self.__init_dict_by_weekday__()}}
+		self.__dict__ = {"users":{},"_chat_info_":{"n_msg":0, "n_words":0, "n_charac":0, "n_by_time":self.__dict_hours__(), "n_by_day":self.__dict_days_of_week__()}}
 		self.u = 0
 		
 		if path_chat:
@@ -28,15 +28,15 @@ class Wtp():
 		elif i:
 			self.import_data(path_import)
 		
-		self.users_n_msg = sorted([(item[0], item[1]["n_msg"]) for item in self.__dict__['users'].items()],key=operator.itemgetter(1), reverse=True)
-		self.users_n_words = sorted([(item[0], item[1]["n_words"]) for item in self.__dict__['users'].items()],key=operator.itemgetter(1), reverse=True)
-		self.users_n_charac = sorted([(item[0], item[1]["n_charac"]) for item in self.__dict__['users'].items()],key=operator.itemgetter(1), reverse=True)
-		self.chat_n_by_time = sorted([(item[0], item[1]) for item in self.__dict__['_chat_info_']['n_by_time'].items()])
+		self.users_msgs = sorted([(item[0], item[1]["n_msg"]) for item in self.__dict__['users'].items()],key=operator.itemgetter(1), reverse=True)
+		self.users_words = sorted([(item[0], item[1]["n_words"]) for item in self.__dict__['users'].items()],key=operator.itemgetter(1), reverse=True)
+		self.users_charac = sorted([(item[0], item[1]["n_charac"]) for item in self.__dict__['users'].items()],key=operator.itemgetter(1), reverse=True)
+		self.chat_msg_each_hour = sorted([(item[0], item[1]) for item in self.__dict__['_chat_info_']['n_by_time'].items()])
 
-	def __init_dict_by_weekday__(self):
-		return {i:self.__init_dict_by_hour__() for i in range(7)} 
+	def __dict_days_of_week__(self):
+		return {i:self.__dict_hours__() for i in range(7)} 
 	
-	def __init_dict_by_hour__(self):
+	def __dict_hours__(self):
 		return {format(i,'02d'):0 for i in range(24)}
 
 	def __validate_u__(self, _u_):
@@ -46,33 +46,33 @@ class Wtp():
 			_u_ = self.u
 		return _u_
 
-	def plot_msgs_by_users(self, _u_=None, hide=True):
+	def plot_msgs_users(self, _u_=None, hide=True):
 		_u_ = self.__validate_u__(_u_)
-		self.__graf_h__(self.users_n_msg, _u_, "Total messages sent per user", hide)
+		self.__graf_h__(self.users_msgs, _u_, "Total messages sent per user", hide)
 
-	def plot_words_by_users(self, _u_=None, hide=True):
+	def plot_words_users(self, _u_=None, hide=True):
 		_u_ = self.__validate_u__(_u_)
-		self.__graf_h__(self.users_n_words, _u_, "Total words sent per user", hide)
+		self.__graf_h__(self.users_words, _u_, "Total words sent per user", hide)
 	
-	def plot_charac_by_users(self, _u_=None, hide=True):
+	def plot_charac_users(self, _u_=None, hide=True):
 		_u_ = self.__validate_u__(_u_)
-		self.__graf_h__(self.users_n_charac, _u_, "Total characters sent per user", hide)
+		self.__graf_h__(self.users_charac, _u_, "Total characters sent per user", hide)
 	
-	def plot_user_msgs_by_weekday(self, id, hide=True, t="u: 1"):
+	def plot_user_msgs_each_day(self, id, hide=True, t="u: 1"):
 		l = [sorted([(item[0], item[1]) for item in self.__dict__['users'][id]["n_by_day"][i].items()]) for i in range(0, 7)]
 		self.__subplots_graf_v__(l, t if hide else id)
 
-	def plot_users_msgs_by_weekday(self, _u_=None, hide=True):
+	def plot_users_msgs_each_day(self, _u_=None, hide=True):
 		_u_ = self.__validate_u__(_u_)
 		for i in range(0, _u_):
-			self.plot_user_msgs_by_weekday(self.users_n_msg[i][0], hide=hide, t="u: "+str(i+1) if hide else None)
+			self.plot_user_msgs_each_day(self.users_msgs[i][0], hide=hide, t="u: "+str(i+1) if hide else None)
 
-	def plot_chat_msgs_by_weekday(self):
+	def plot_chat_msgs_each_day(self):
 		l = [sorted([(item[0], item[1]) for item in self.__dict__['_chat_info_']["n_by_day"][i].items()]) for i in range(0, 7)]
 		self.__subplots_graf_v__(l, "Chat")
 
-	def plot_chat_msgs_by_hour(self):
-		self.__graf_v__(self.chat_n_by_time, len(self.chat_n_by_time), "Messages sent per hour")
+	def plot_chat_msgs_each_hour(self):
+		self.__graf_v__(self.chat_msg_each_hour, len(self.chat_msg_each_hour), "Messages sent per hour")
 	
 	def export(self, name = "data.json", use_pprint = False):
 		with open('data.json', 'w') as fp:
@@ -98,7 +98,7 @@ class Wtp():
 			for j in range(0, 24):
 				label.append(l[i-1][j][0])
 				y.append(l[i-1][j][1])
-			plt.title(self.__id_to_weekday__[i-1])
+			plt.title(self.__day_of_week__[i-1])
 			plt.plot(x, y, color=(0, 0, 1))
 			plt.axhline(statistics.mean(y),color=(0,1,0,0.5), linewidth=1, label="Mean")
 			plt.axhline(statistics.stdev(y),color=(1,0,0,0.5), linewidth=1, label="Standard deviation")
@@ -159,22 +159,22 @@ class Wtp():
 				if match:
 					h, _ = match.group('hour').split(":")
 					mm, dd, yy = match.group('day').split("/")
-					weekday = datetime.datetime(int(yy), int(mm), int(dd)).weekday()
+					id_day_of_week = datetime.datetime(int(yy), int(mm), int(dd)).weekday()
 					
 					# Informacoes gerais do grupo/chat
 					self.__dict__["_chat_info_"]["n_msg"]+=1
 					self.__dict__["_chat_info_"]["n_words"]+=len(match.group('msg').split())
 					self.__dict__["_chat_info_"]["n_charac"]+=len(match.group('msg'))
 					self.__dict__['_chat_info_']["n_by_time"][h] += 1
-					self.__dict__['_chat_info_']["n_by_day"][weekday][h] += 1
+					self.__dict__['_chat_info_']["n_by_day"][id_day_of_week][h] += 1
 					
 					# Informacoes de usuario
 					id = match.group('full_name') if match.group('full_name') else (match.group('number').replace(" ", "")).replace("-", "")
-					self.__dict__['users'].setdefault(id, {"n_msg": 0, "n_words": 0, "n_charac": 0,"n_by_time":self.__init_dict_by_hour__(), "n_by_day":self.__init_dict_by_weekday__()})
+					self.__dict__['users'].setdefault(id, {"n_msg": 0, "n_words": 0, "n_charac": 0,"n_by_time":self.__dict_hours__(), "n_by_day":self.__dict_days_of_week__()})
 					self.__dict__['users'][id]["n_msg"] += 1
 					self.__dict__['users'][id]["n_words"] += len(match.group('msg').split())
 					self.__dict__['users'][id]["n_charac"] += len(match.group('msg'))
-					self.__dict__['users'][id]['n_by_day'][weekday][h] += 1
+					self.__dict__['users'][id]['n_by_day'][id_day_of_week][h] += 1
 					self.__dict__['users'][id]["n_by_time"][h] += 1
 			
 			self.u = len(self.__dict__['users'])
@@ -195,10 +195,10 @@ if __name__=="__main__":
 	ap.add_argument("-m_users", "--msgs_users", required = False, help = "Plot # of msgs by each user.", action='store_true')
 	ap.add_argument("-w_users", "--words_users", required = False, help = "Plot # of words by each user.", action='store_true')
 	ap.add_argument("-c_users", "--charac_users", required = False, help = "Plot # of characters by each user.", action='store_true')
-	ap.add_argument("-m_user_w", "--msgs_user_w", required = False, help = "Plot # of msgs by name/number by weekday.")
-	ap.add_argument("-m_users_w", "--msgs_users_w", required = False, help = "Plot # of msgs by each user by weekday.", action='store_true')
-	ap.add_argument("-m_chat", "--msgs_chat", required = False, help = "Plot # of msgs by time.", action='store_true')
-	ap.add_argument("-m_chat_w", "--msgs_chat_w", required = False, help = "Plot # of msgs by weekday.", action='store_true')
+	ap.add_argument("-m_user_w", "--msgs_user_w", required = False, help = "Plot # of msgs of a given id by each day of the week.")
+	ap.add_argument("-m_users_w", "--msgs_users_w", required = False, help = "Plot # of msgs by each user by each day of the week.", action='store_true')
+	ap.add_argument("-m_chat", "--msgs_chat", required = False, help = "Plot # of msgs at each hour.", action='store_true')
+	ap.add_argument("-m_chat_w", "--msgs_chat_w", required = False, help = "Plot # of msgs by each day of the week.", action='store_true')
 	args = vars(ap.parse_args())
 	
 	# Functions params
@@ -224,18 +224,18 @@ if __name__=="__main__":
 		wtp = Wtp(f)
 	
 	if(m_users):
-		wtp.plot_msgs_by_users(u, h)
+		wtp.plot_msgs_users(u, h)
 	if(w_users):
-		wtp.plot_words_by_users(u, h)
+		wtp.plot_words_users(u, h)
 	if(c_users):
-		wtp.plot_charac_by_users(u, h)
+		wtp.plot_charac_users(u, h)
 	if(m_user_w):
-		wtp.plot_user_msgs_by_weekday(m_user_w, h)
+		wtp.plot_user_msgs_each_day(m_user_w, h)
 	if(m_users_w):
-		wtp.plot_users_msgs_by_weekday(u, h)
+		wtp.plot_users_msgs_each_day(u, h)
 	if(m_chat):
-		wtp.plot_chat_msgs_by_hour()
+		wtp.plot_chat_msgs_each_hour()
 	if(m_chat_w):
-		wtp.plot_chat_msgs_by_weekday()
+		wtp.plot_chat_msgs_each_day()
 	if(not i and e):
 		wtp.export()
