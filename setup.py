@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="Wtp",
-    version="0.0.5",
+    version="0.0.6",
     author="Carlos Niquini",
     description="Whatsapp chat analyzer with Python",
     long_description=long_description,
@@ -14,11 +14,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     install_requires=[
    'matplotlib',
-   'numpy',
-   'argparse',
-   'datetime',
-   'pprint',
-   'statistics'
+   'numpy'
     ],
     classifiers=(
         'Programming Language :: Python',
