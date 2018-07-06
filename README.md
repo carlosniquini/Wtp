@@ -1,5 +1,6 @@
 Wtp
 =======
+[![PyPI version](https://badge.fury.io/py/Wtp.svg)](https://badge.fury.io/py/Wtp)
 
 Wtp is a tool to analyze Whatsapp chats.
 
