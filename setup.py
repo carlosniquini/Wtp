@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="Wtp",
-    version="0.0.6",
+    version="0.0.6.1",
     author="Carlos Niquini",
     description="Whatsapp chat analyzer with Python",
     long_description=long_description,
