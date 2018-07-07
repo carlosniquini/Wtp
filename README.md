@@ -34,6 +34,7 @@ Installation
 There is an option to download the Wtp.py file and run:
 
 ```
+> pip install -r requirements.txt
 > python Wtp.py [-h] -f FILE [-i] [-e] [-u USERS] [-r HIDE] [-m_users] [-w_users] [-c_users] [-m_user_w MSGS_USER_W] [-m_users_w] [-m_chat] [-m_chat_w]
 ```
 
