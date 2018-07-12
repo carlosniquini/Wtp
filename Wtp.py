@@ -20,7 +20,7 @@ class Wtp():
 	__day_of_week__ = {0:"Monday", 1:"Tuesday", 2:"Wednesday", 3:"Thursday", 4:"Friday", 5:"Saturday", 6:"Sunday"}
 	
 	def __init__(self, path_chat=None, i=False, path_import="data.json"):
-		self.__dict__ = {"users":{},"_chat_info_":{"n_msg":0, "n_words":0, "n_charac":0, "n_by_time":self.__dict_hours__(), "n_by_day":self.__dict_days_of_week__()}}
+		self.__dict__ = {"users":{},"_chat_info_":{"n_msg":0, "n_words":0, "n_charac":0, "media":0, "n_by_time":self.__dict_hours__(), "n_by_day":self.__dict_days_of_week__()}}
 		self.u = 0
 		
 		if path_chat:
@@ -155,7 +155,7 @@ class Wtp():
 	def __load_from_chat__(self, path):
 		with open(path, encoding="utf8") as file:
 			for line in file:
-				match = re.search(r'(?P<day>\d{1,2}\/\d{1,2}\/\d{2})\,\s(?P<hour>\d{2}:\d{2})\s-\s+(?:(?P<full_name>(?P<f_name>[A-Z][\w+]*)(\s*[A-Z][\w+]*)*)|.*(?P<number>(\+\d{1,3})\s(\d{1,4}\s\d{1,5}(\s|-)\d{1,4})))(:|.:)\s(\<Media.omitted\>)*(?P<msg>.*)', line, re.UNICODE)
+				match = re.search(r'(?P<day>\d{1,2}\/\d{1,2}\/\d{2})\,\s(?P<hour>\d{2}:\d{2})\s-\s+(?:(?P<full_name>(?P<f_name>[A-Z][\w+]*)(\s*[A-Z][\w+]*)*)|.*(?P<number>(\+\d{1,3})\s(\d{1,4}\s\d{1,5}(\s|-)\d{1,4})))(:|.:)\s(?P<media>\<Media.omitted\>)*(?P<msg>.*)', line, re.UNICODE)
 				if match:
 					h, _ = match.group('hour').split(":")
 					mm, dd, yy = match.group('day').split("/")
@@ -165,15 +165,17 @@ class Wtp():
 					self.__dict__["_chat_info_"]["n_msg"]+=1
 					self.__dict__["_chat_info_"]["n_words"]+=len(match.group('msg').split())
 					self.__dict__["_chat_info_"]["n_charac"]+=len(match.group('msg'))
+					self.__dict__["_chat_info_"]["media"]+= 1 if match.group('media') else 0
 					self.__dict__['_chat_info_']["n_by_time"][h] += 1
 					self.__dict__['_chat_info_']["n_by_day"][id_day_of_week][h] += 1
 					
 					# Informacoes de usuario
 					id = match.group('full_name') if match.group('full_name') else (match.group('number').replace(" ", "")).replace("-", "")
-					self.__dict__['users'].setdefault(id, {"n_msg": 0, "n_words": 0, "n_charac": 0,"n_by_time":self.__dict_hours__(), "n_by_day":self.__dict_days_of_week__()})
+					self.__dict__['users'].setdefault(id, {"n_msg": 0, "n_words": 0, "n_charac": 0, "media":0, "n_by_time":self.__dict_hours__(), "n_by_day":self.__dict_days_of_week__()})
 					self.__dict__['users'][id]["n_msg"] += 1
 					self.__dict__['users'][id]["n_words"] += len(match.group('msg').split())
 					self.__dict__['users'][id]["n_charac"] += len(match.group('msg'))
+					self.__dict__['users'][id]["media"] += 1 if match.group('media') else 0
 					self.__dict__['users'][id]['n_by_day'][id_day_of_week][h] += 1
 					self.__dict__['users'][id]["n_by_time"][h] += 1
 			
